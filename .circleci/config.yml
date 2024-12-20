@@ -1,24 +1,23 @@
 version: 2.1
-
-executors:
-  node-executor:
-    docker:
-      - image: cypress/base:18.16.0 # Use a Cypress-compatible Docker image with Node.js preinstalled
-
 jobs:
-  cypress-tests:
-    executor: node-executor
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: npm install
-      - run:
-          name: Run Cypress tests
-          command: npx cypress run --browser chrome
+ cypress-test:
+   docker:
+     - image: cypress/base:16
+   steps:
+     - checkout
+     - run:
+         name: Install dependencies
+         command: npm install
+     - run:
+         name: Install Cypress binary
+         command: npx cypress install
+     - run:
+         name: Run Cypress tests
+         command: npx cypress run
+
 
 workflows:
-  version: 2
-  test:
-    jobs:
-      - cypress-tests
+ version: 2
+ test:
+   jobs:
+     - cypress-test
