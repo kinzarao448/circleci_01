@@ -11,13 +11,14 @@ jobs:
       - run:
           name: Install dependencies
           command: npm install
+     
 
       # Ensure Cypress is installed and has execute permissions
       - run:
           name: Install Cypress binary and set permissions
           command: |
             npx cypress install  # Install Cypress
-            chmod +x ./node_modules/.bin/cypress  # Ensure Cypress binary has execute permissions
+            
 
       # Run Cypress tests
       - run:
