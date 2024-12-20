@@ -1,23 +1,31 @@
 version: 2.1
-jobs:
- cypress-test:
-   docker:
-     - image: cypress/base:16
-   steps:
-     - checkout
-     - run:
-         name: Install dependencies
-         command: npm install
-     - run:
-         name: Install Cypress binary
-         command: npx cypress install
-     - run:
-         name: Run Cypress tests
-         command: npx cypress run
 
+jobs:
+  cypress-test:
+    docker:
+      - image: cypress/base:16  # Cypress base image with Node.js
+    steps:
+      - checkout  # Checkout your repository
+      
+      # Install project dependencies
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      # Ensure Cypress is installed and has execute permissions
+      - run:
+          name: Install Cypress binary and set permissions
+          command: |
+            npx cypress install  # Install Cypress
+            chmod +x ./node_modules/.bin/cypress  # Ensure Cypress binary has execute permissions
+
+      # Run Cypress tests
+      - run:
+          name: Run Cypress tests
+          command: npx cypress run  # Run the tests with npx
 
 workflows:
- version: 2
- test:
-   jobs:
-     - cypress-test
+  version: 2
+  test:
+    jobs:
+      - cypress-test
