@@ -1,22 +1,23 @@
 version: 2.1
-
 jobs:
-  cypress-run:
-    docker:
-      - image: cypress/base:16.17.0  # Use an image with Node.js and browsers pre-installed
-    steps:
-      - checkout  # Check out your code
+ cypress-test:
+   docker:
+     - image: cypress/base:16
+   steps:
+     - checkout
+     - run:
+         name: Install dependencies
+         command: npm install
+     - run:
+         name: Install Cypress binary
+         command: npx cypress install
+     - run:
+         name: Run Cypress tests
+         command: npx cypress run
 
-      - run:
-          name: Install dependencies
-          command: npm install
-
-      - run:
-          name: Run Cypress tests
-          command: npx cypress run
 
 workflows:
-  version: 2
-  test:
-    jobs:
-      - cypress-run
+ version: 2
+ test:
+   jobs:
+     - cypress-test
